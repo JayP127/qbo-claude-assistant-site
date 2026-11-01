@@ -38,11 +38,11 @@ footer{margin-top:2.75rem;padding-top:1rem;border-top:1px solid rgba(127,127,127
 <p>Intuit's sign-in flow requires the browser to come back to a registered HTTPS address after you approve the connection. For this tool that address is the <a href="callback.html">callback page</a> on this site, a page of plain text. The tool itself runs on your computer and cannot be reached from the internet, so the final step is done by hand: you carry the address of the callback page from the browser to the tool. The one-time authorisation code in that address is useless without the app's secret, which never leaves your computer, and it expires within minutes.</p>
 
 <h2>Before you start</h2>
-<p>The credential file for the environment you are connecting, <code>~/.qbo/production.env</code> for Benemetry's company or <code>~/.qbo/sandbox.env</code> for the sandbox, must exist and hold the app's client ID, client secret, callback address and environment. If it was deleted when the tool was disconnected, recreate it from the internal runbook first; the connection command cannot run without it.</p>
+<p>The credential file <code>~/.qbo/production.env</code> must exist on the computer that runs the tool and hold the app's client ID, client secret, callback address and environment. If it was deleted when the tool was retired, recreate it from the internal runbook first; the connection command cannot run without it. If the file still holds credentials from an earlier connection, expired or revoked, blank the two token lines, <code>QUICKBOOKS_REFRESH_TOKEN</code> and <code>QUICKBOOKS_REALM_ID</code>, before running the command: with old values in place it reports that re-authorisation is needed instead of starting one. The command fills the lines again when the connection succeeds.</p>
 
 <h2>Steps</h2>
 <ol>
-<li>On the computer that runs the tool, run the connection command from the runbook (<code>npm run auth</code> in the server folder, pointed at the credential file for that environment).</li>
+<li>On the computer that runs the tool, run the connection command from the runbook (<code>npm run auth</code> in the server folder, pointed at the production credential file).</li>
 <li>The command prints an authorisation link, opens it in your browser and waits for the result on port 8000 of your computer.</li>
 <li>Sign in to Intuit, choose <strong>Benemetry Ltd</strong>'s company and approve the connection.</li>
 <li>Intuit sends your browser to the callback page on this site. Its address now ends with <code>?code=…&amp;state=…&amp;realmId=…</code>. The page does nothing with it.</li>
