@@ -20,8 +20,11 @@ https://jayp127.github.io/qbo-claude-assistant-site/
   `no-referrer` policy. `callback.html` receives a one-time OAuth code in its query string; nothing on
   this site may read, store or forward it.
 - `callback.html` is registered with Intuit as the production redirect URI. Never move or rename it.
-- Pushing to `main` publishes. After a push, run `scripts/check-site.sh` from Benemetry's private
-  QuickBooks project; it verifies the build, the HTTPS setup and the rules above.
+- Before pushing, run `scripts/check-page.sh <file>` from Benemetry's private QuickBooks project on every
+  changed page: it is an allowlist (fixed head block, text markup, relative `.html` and `mailto:` links only)
+  and rejects anything that could load, run or send. Pushing to `main` publishes. After a push, run
+  `scripts/check-site.sh` there; it verifies the build, the HTTPS setup and runs the same page check on the
+  live pages.
 - The `<head>` block is identical on every page; change the style in all of them at once.
 
 Owner: Benemetry Ltd, jay@benemetry.com.
