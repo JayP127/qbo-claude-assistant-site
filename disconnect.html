@@ -35,8 +35,8 @@ footer{margin-top:2.75rem;padding-top:1rem;border-top:1px solid rgba(127,127,127
 
 <h2>Clean up the computer</h2>
 <ol>
-<li>Delete the credential file <code>~/.qbo/production.env</code>, and <code>~/.qbo/sandbox.env</code> if a sandbox company was also connected. The tokens in them are already useless, but Benemetry's rule is that they do not linger.</li>
-<li>Remove the tool from the Claude applications: in a terminal in Benemetry's QuickBooks project folder run <code>claude mcp remove quickbooks</code> and <code>claude mcp remove quickbooks-sandbox</code>, and delete the <code>quickbooks-readonly</code> entry from the Claude Desktop configuration file if it exists.</li>
+<li>Open the credential file for the company you disconnected, <code>~/.qbo/production.env</code> for Benemetry's company or <code>~/.qbo/sandbox.env</code> for the sandbox, and blank the two token lines, <code>QUICKBOOKS_REFRESH_TOKEN</code> and <code>QUICKBOOKS_REALM_ID</code>. The tokens are already useless, but Benemetry's rule is that they do not linger. Keep the rest of the file: it holds the app's client ID and secret, which a later reconnection needs.</li>
+<li>Only if the tool will not be used again: delete both credential files, remove the tool from the Claude applications with <code>claude mcp remove quickbooks</code> and then <code>claude mcp remove quickbooks-sandbox</code>, run from Benemetry's QuickBooks project folder, and delete the <code>quickbooks-readonly</code> entry from the Claude Desktop configuration file if it exists.</li>
 </ol>
 
 <h2>What disconnecting does not do</h2>
