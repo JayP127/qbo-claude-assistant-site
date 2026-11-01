@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:,">
+<title>Connect or reconnect · Benemetry QuickBooks assistant</title>
+<style>
+:root{color-scheme:light dark}
+body{max-width:42rem;margin:0 auto;padding:2rem 1.25rem 3rem;font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fff}
+a{color:#0b57d0}
+h1{font-size:1.65rem;line-height:1.25;margin:0 0 1rem}
+h2{font-size:1.15rem;margin:1.75rem 0 .5rem}
+p,li{margin:.4rem 0}
+nav{font-size:.9rem;margin-bottom:1.75rem}
+nav a{margin-right:.9rem}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.92em;background:rgba(127,127,127,.15);padding:.1em .3em;border-radius:3px}
+footer{margin-top:2.75rem;padding-top:1rem;border-top:1px solid rgba(127,127,127,.4);font-size:.85rem}
+@media(prefers-color-scheme:dark){body{color:#e8e8e8;background:#131313}a{color:#8ab4f8}}
+</style>
+</head>
+<body>
+<nav><a href="index.html">Home</a><a href="privacy.html">Privacy</a><a href="eula.html">Licence</a><a href="reconnect.html">Connect</a><a href="disconnect.html">Disconnect</a><a href="support.html">Support</a></nav>
+<main>
+<h1>Connect or reconnect the assistant</h1>
+<p>This page is for Benemetry staff who are administrators of Benemetry's QuickBooks Online company. It describes how the Benemetry QuickBooks assistant ("Claude assistant") is authorised with Intuit. The exact commands are in Benemetry's internal runbook.</p>
+
+<h2>When you need this</h2>
+<ul>
+<li>The first time the tool is connected.</li>
+<li>After the tool was <a href="disconnect.html">disconnected</a> in QuickBooks.</li>
+<li>When the stored credentials have expired: Intuit retires a refresh token after 100 days without use, and in any case five years after it was issued.</li>
+<li>After the app's client secret has been regenerated in the Intuit developer portal.</li>
+</ul>
+
+<h2>How it works</h2>
+<p>Intuit's sign-in flow requires the browser to come back to a registered HTTPS address after you approve the connection. For this tool that address is the <a href="callback.html">callback page</a> on this site, a page of plain text. The tool itself runs on your computer and cannot be reached from the internet, so the final step is done by hand: you carry the address of the callback page from the browser to the tool. The one-time authorisation code in that address is useless without the app's secret, which never leaves your computer, and it expires within minutes.</p>
+
+<h2>Steps</h2>
+<ol>
+<li>On the computer that runs the tool, run the connection command from the runbook (<code>npm run auth</code> in the server folder, pointed at the production credential file).</li>
+<li>The command prints an authorisation link, opens it in your browser and waits for the result on port 8000 of your computer.</li>
+<li>Sign in to Intuit, choose <strong>Benemetry Ltd</strong>'s company and approve the connection.</li>
+<li>Intuit sends your browser to the callback page on this site. Its address now ends with <code>?code=…&amp;state=…&amp;realmId=…</code>. The page does nothing with it.</li>
+<li>Copy the full address from the browser's address bar. Replace everything before the <code>?</code> with <code>http://localhost:8000/callback</code>, keep everything from the <code>?</code> onwards unchanged, and open the result in the same browser. Alternatively, from a second terminal on the same computer, fetch it with <code>curl</code>, with the address in quotes.</li>
+<li>The tool checks that the <code>state</code> value matches the one it issued, exchanges the code with Intuit and saves the new credentials in its file. The terminal prints a success message and the browser shows a "Successfully connected" page.</li>
+</ol>
+
+<h2>If something goes wrong</h2>
+<ul>
+<li><strong>Intuit shows an error about the redirect URI.</strong> The callback address registered in the Intuit developer app does not match the address of the callback page exactly (scheme, host, path, no trailing slash). Fix the registration; nothing on this site needs to change.</li>
+<li><strong>The tool rejects the state, or the code has expired.</strong> Stop the command and start again from step 1. Codes are single-use and short-lived.</li>
+<li><strong>The browser shows "Processing…" instead of success.</strong> Browsers sometimes deliver the callback twice; the tool exchanges the code only once. Wait for the terminal.</li>
+</ul>
+</main>
+<footer>
+<p>Benemetry Ltd is registered in England and Wales, company number 16572219. Registered office: 66 Paul Street, London EC2A 4NA, United Kingdom. Contact: <a href="mailto:jay@benemetry.com">jay@benemetry.com</a>.</p>
+<p>This site holds no data and runs no code. &copy; 2026 Benemetry Ltd.</p>
+</footer>
+</body>
+</html>

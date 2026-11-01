@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:,">
+<title>Disconnect · Benemetry QuickBooks assistant</title>
+<style>
+:root{color-scheme:light dark}
+body{max-width:42rem;margin:0 auto;padding:2rem 1.25rem 3rem;font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a;background:#fff}
+a{color:#0b57d0}
+h1{font-size:1.65rem;line-height:1.25;margin:0 0 1rem}
+h2{font-size:1.15rem;margin:1.75rem 0 .5rem}
+p,li{margin:.4rem 0}
+nav{font-size:.9rem;margin-bottom:1.75rem}
+nav a{margin-right:.9rem}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.92em;background:rgba(127,127,127,.15);padding:.1em .3em;border-radius:3px}
+footer{margin-top:2.75rem;padding-top:1rem;border-top:1px solid rgba(127,127,127,.4);font-size:.85rem}
+@media(prefers-color-scheme:dark){body{color:#e8e8e8;background:#131313}a{color:#8ab4f8}}
+</style>
+</head>
+<body>
+<nav><a href="index.html">Home</a><a href="privacy.html">Privacy</a><a href="eula.html">Licence</a><a href="reconnect.html">Connect</a><a href="disconnect.html">Disconnect</a><a href="support.html">Support</a></nav>
+<main>
+<h1>Disconnect the assistant</h1>
+<p>If Intuit sent you here, the Benemetry QuickBooks assistant ("Claude assistant") has just been disconnected from a QuickBooks Online company, and Intuit has stopped honouring its credentials. This page explains what that means and what remains to be done on the computer that ran the tool.</p>
+
+<h2>How to disconnect</h2>
+<ol>
+<li>Sign in to QuickBooks Online as an administrator of the company.</li>
+<li>Open <strong>Apps</strong>, then <strong>My apps</strong>, find <strong>Claude assistant</strong> and choose <strong>Disconnect</strong>. Menu names may change slightly as Intuit updates QuickBooks.</li>
+<li>From that moment Intuit refuses the tool's access and refresh tokens. No data can be read or written through it.</li>
+</ol>
+
+<h2>Clean up the computer</h2>
+<ol>
+<li>Delete the credential file <code>~/.qbo/production.env</code>, and <code>~/.qbo/sandbox.env</code> if a sandbox company was also connected. The tokens in them are already useless, but Benemetry's rule is that they do not linger.</li>
+<li>Remove the tool from the Claude applications: in a terminal in Benemetry's QuickBooks project folder run <code>claude mcp remove quickbooks</code> and <code>claude mcp remove quickbooks-sandbox</code>, and delete the <code>quickbooks-readonly</code> entry from the Claude Desktop configuration file if it exists.</li>
+</ol>
+
+<h2>What disconnecting does not do</h2>
+<ul>
+<li>It does not change or delete anything in QuickBooks Online. Records the tool created with your approval remain in the books.</li>
+<li>It does not delete reports already saved in Benemetry's private repository, or data already in past Claude conversations. Those are handled under the <a href="privacy.html">privacy policy</a>.</li>
+<li>It does not notify this site. These pages hold no data and run no code, so there is nothing here to clear.</li>
+</ul>
+<p>To connect again later, see <a href="reconnect.html">Connect or reconnect</a>.</p>
+</main>
+<footer>
+<p>Benemetry Ltd is registered in England and Wales, company number 16572219. Registered office: 66 Paul Street, London EC2A 4NA, United Kingdom. Contact: <a href="mailto:jay@benemetry.com">jay@benemetry.com</a>.</p>
+<p>This site holds no data and runs no code. &copy; 2026 Benemetry Ltd.</p>
+</footer>
+</body>
+</html>
